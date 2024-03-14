@@ -1,0 +1,17 @@
+Manufacturer:
+  Name: string
+
+  URL: string
+
+Item:
+  Name: string
+  Category: string
+  Cost: Number (cents)
+  Manufacturer: String
+
+  URL: string
+
+Category:
+  Name: string
+
+  URL: string
