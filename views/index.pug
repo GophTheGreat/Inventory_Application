@@ -1,0 +1,13 @@
+extends layout
+
+block content 
+  h1= title 
+  p This is an example of a basic shop database! 
+
+  h1 Dynamic content 
+
+  p The Shop has the following record counts 
+  ul 
+    li #[strong Items: ] !{item_count}
+    li #[strong Categories: ] !{category_count}
+    li #[strong Manufacturers: ] !{manufacturer_count}

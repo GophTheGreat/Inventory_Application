@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  h1= title
+  if item_list.length
+    ul
+      each item in item_list
+        li
+          a(href=item.category.url) #{item.category.name}
+          a(href=item.url) 
+            strong #{item.name}
+          |  #{item.manufacturer ? '(' + item.manufacturer.name + ')' : ''}
+          |  (#{item.price})
+
+  else
+    p There are no items.

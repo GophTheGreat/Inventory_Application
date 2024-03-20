@@ -4,9 +4,9 @@ const Schema = mongoose.Schema;
 
 const ItemSchema = new Schema({
   name: {type: String, required: true, maxLength: 100},
-  category: {type: String, required: true, maxLength: 100},
+  category: {type: Schema.Types.ObjectId, ref: "Category", required: true},
   cost: {type: Number, required: true, min: 0},
-  manufacturer: {type: String, maxLength: 100},
+  manufacturer: {type: Schema.Types.ObjectId, ref: "Manufacturer"},
 })
 
 // Virtual for item's URL
@@ -15,7 +15,11 @@ ItemSchema.virtual("url").get(function () {
   return `/catalog/item/${this._id}`;
 });
 
-// Virtural for item's price
+// Virtual for item's price
 ItemSchema.virtual("price").get(function() {
-  return "$" + (this.cost / 100).toString();
+  const price = (this.cost / 100).toFixed(2);
+  return "$" + price;
 })
+
+// Export model
+module.exports = mongoose.model("Item", ItemSchema);
