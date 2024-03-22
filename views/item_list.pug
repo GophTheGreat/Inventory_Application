@@ -6,11 +6,16 @@ block content
     ul
       each item in item_list
         li
-          a(href=item.category.url) #{item.category.name}
           a(href=item.url) 
-            strong #{item.name}
-          |  #{item.manufacturer ? '(' + item.manufacturer.name + ')' : ''}
-          |  (#{item.price})
+            strong #{item.name} 
+          | #{item.price} by 
+          if item.manufacturer 
+            a(href=item.manufacturer.url) #{item.manufacturer.name} 
+            | in 
+          else 
+            | Unknown in 
+          a(href=item.category.url) #{item.category.name}
+
 
   else
     p There are no items.

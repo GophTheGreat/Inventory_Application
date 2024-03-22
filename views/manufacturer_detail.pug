@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  h1 Manufacturer: #{manufacturer.name}
+
+  div(style='margin-left:20px;margin-top:20px')
+
+    h4 Items 
+    if manufacturer_items.length 
+      ul 
+        each item in manufacturer_items 
+          li 
+            a(href=item.url) #{item.name}
+
+  hr
+  p
+    a(href=manufacturer.url+'/delete') Delete Manufacturer
+  p
+    a(href=manufacturer.url+'/update') Update Manufacturer

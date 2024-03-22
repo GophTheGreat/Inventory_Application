@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  h1 Category: #{category.name}
+
+  div(style='margin-left:20px;margin-top:20px')
+
+    h4 Items 
+    if category_items.length 
+      ul 
+        each item in category_items 
+          li 
+            a(href=item.url) #{item.name}
+
+  hr
+  p
+    a(href=category.url+'/delete') Delete Category
+  p
+    a(href=category.url+'/update') Update Category
