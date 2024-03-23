@@ -24,11 +24,17 @@ router.get("/items", item_controller.item_list);
 // GET request for list of all categories
 router.get("/categories", category_controller.category_list);
 
+// GET request for creating Category
+router.get("/category/create", category_controller.category_create_get)
+
+// POST request for creating Category
+router.post("/category/create", category_controller.category_create_post)
+
 // GET request for one category
 router.get("/category/:id", category_controller.category_detail);
 
 // GET request for list of all manufacturers
-router.get("/manufacturer", manufacturer_controller.manufacturer_list);
+router.get("/manufacturers", manufacturer_controller.manufacturer_list);
 
 // GET request for creating manufacturer.
 router.get("/manufacturer/create", manufacturer_controller.manufacturer_create_get)
