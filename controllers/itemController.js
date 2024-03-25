@@ -107,10 +107,17 @@ exports.item_create_post = [
     });
 
     if(!errors.isEmpty()) {
+      const [allCategories, allManufacturers] = await Promise.all([
+        Category.find().sort({name: 1}).exec(),
+        Manufacturer.find().sort({name: 1}).exec(),
+      ]);
+
       // There are errors. Render form again with sanitized values/errors messages.
       res.render("item_form", {
         title: "Create Item",
         item: item,
+        categories: allCategories,
+        manufacturers: allManufacturers,
         errors: errors.array(),
       })
       return;
