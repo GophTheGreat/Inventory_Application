@@ -46,7 +46,9 @@ exports.manufacturer_create_post = [
   body("name", "Manufacturer's name")
     .trim()
     .isLength({min: 1})
-    .escape(),
+    .escape()
+    .isAscii()
+    .withMessage("Name must be must be in ASCII characters"),
 
   asyncHandler(async (req, res, next) => {
     //Extract the validation errors from a request.
@@ -78,3 +80,42 @@ exports.manufacturer_create_post = [
     }
   }),
 ]
+
+//Display Manufacturer delete form on GET.
+exports.manufacturer_delete_get = asyncHandler(async (req, res, next) => {
+  const [manufacturer, allItemsInManufacturer] = await Promise.all([
+    Manufacturer.findById(req.params.id).exec(),
+    Item.find( {manufacturer: req.params.id}).exec(),
+  ]);
+
+  if(manufacturer === null) {
+    //No results
+    res.redirect("catalog/categories")
+  }
+
+  res.render("manufacturer_delete", {
+    title: "Delete Manufacturer",
+    manufacturer: manufacturer,
+    items: allItemsInManufacturer,
+  });
+})
+
+exports.manufacturer_delete_post = asyncHandler(async (req, res, next) => {
+  const [manufacturer, allItemsInManufacturer] = await Promise.all([
+    Manufacturer.findById(req.params.id).exec(),
+    Item.find( {manufacturer: req.params.id}).exec(),
+  ]);
+
+  if(allItemsInManufacturer.length > 0) {
+    res.render("manufacturer_delete", {
+      title: "Delete Manufacturer",
+      manufacturer: manufacturer,
+      items: allItemsInManufacturer,
+    });
+    return;
+  }
+  else{
+    await Manufacturer.findByIdAndDelete(req.body.manufacturerid)
+    res.redirect("/catalog/manufacturers")
+  }
+})

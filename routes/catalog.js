@@ -15,6 +15,12 @@ router.get("/item/create", item_controller.item_create_get)
 // POST request for creating Item.
 router.post("/item/create", item_controller.item_create_post);
 
+// GET request for deleting Item
+router.get("/item/:id/delete", item_controller.item_delete_get)
+
+// Post request for deleting Item
+router.post("/item/:id/delete", item_controller.item_delete_post)
+
 // GET request for one item.
 router.get("/item/:id", item_controller.item_detail);
 
@@ -30,6 +36,12 @@ router.get("/category/create", category_controller.category_create_get)
 // POST request for creating Category
 router.post("/category/create", category_controller.category_create_post)
 
+// GET request for deleting category
+router.get("/category/:id/delete", category_controller.category_delete_get)
+
+// POST request for deleting category
+router.post("/category/:id/delete", category_controller.category_delete_post)
+
 // GET request for one category
 router.get("/category/:id", category_controller.category_detail);
 
@@ -42,7 +54,13 @@ router.get("/manufacturer/create", manufacturer_controller.manufacturer_create_g
 // POST request for creating manufacturer.
 router.post("/manufacturer/create", manufacturer_controller.manufacturer_create_post);
 
-// GET request for one category
+// GET request for deleting manufacturer
+router.get("/manufacturer/:id/delete", manufacturer_controller.manufacturer_delete_get)
+
+// POST request for deleting manufacturer
+router.post("/manufacturer/:id/delete", manufacturer_controller.manufacturer_delete_post)
+
+// GET request for one manufacturer
 router.get("/manufacturer/:id", manufacturer_controller.manufacturer_detail);
 
 module.exports = router;

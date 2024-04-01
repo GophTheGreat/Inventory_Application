@@ -69,41 +69,40 @@ exports.item_create_post = [
     .isLength({min: 1, max: 100})
     .escape()
     .withMessage("Item must have a name")
-    .isAlphanumeric()
-    .withMessage("Name must be alphanumeric"),
+    .isAscii()
+    .withMessage("Name must be must be in ASCII characters"),
   body("category")
     .trim()
     .isLength({min: 1, max: 100})
     .escape()
-    .withMessage("Item must have a category")
-    .isAlphanumeric()
-    .withMessage("Category must be alphanumeric"),
+    .withMessage("Item must have a category"),
   body("cost")
     .notEmpty()
     .withMessage("A price is required")
     .isInt({min: 0})
     .withMessage("Price must be a positive number representing cents"),
   body("manufacturer")
-    .optional()
+    .optional({values: "falsy"})
     .trim()
     .isLength({min: 1, max: 100})
-    .escape()
-    .withMessage("Item must have a category")
-    .isAlphanumeric()
-    .withMessage("Category must be alphanumeric"),
+    .escape(),
 
   // Process request after validation and sanitization.
   asyncHandler(async (req, res, next) => {
     //Extract the validation errors from the request
     const errors = validationResult(req);
     console.log("Request Body:", req.body);
+    let manufacturer = req.body.manufacturer
+    if(manufacturer === "") {
+      manufacturer = null;
+    }
 
     //Create Item object with escaped and trimmed data
     const item = new Item({
       name: req.body.name,
       category: req.body.category,
       cost: req.body.cost,
-      manufacturer: req.body.manufacturer
+      manufacturer: manufacturer
     });
 
     if(!errors.isEmpty()) {
@@ -132,6 +131,22 @@ exports.item_create_post = [
     }
   })
 ];
+
+//GET for deletion of an item
+exports.item_delete_get = asyncHandler (async (req, res, next) => {
+  const item = await Item.findById(req.params.id).exec()
+
+  res.render("item_delete", {
+    title: "Delete Item",
+    item: item
+  })
+})
+
+//POST for deletion of an item
+exports.item_delete_post = asyncHandler (async (req, res, next) => {
+  await Item.findByIdAndDelete(req.body.itemid)
+  res.redirect("/catalog/items")
+})
 
 //Display list of all items
 exports.item_list = asyncHandler(async (req, res, next) => {
